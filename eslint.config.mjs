@@ -18,7 +18,9 @@ export default [
       "semi": ["error", "always"],
       "no-console": "off",
       "no-multiple-empty-lines": ["error", { "max": 1 }],
-      "class-methods-use-this": "off"
+      "class-methods-use-this": "off",
+      "import/first": "off",
+      "no-param-reassign": "off"
     },
   },
 ];
