@@ -1,16 +1,19 @@
 import Aluno from '../models/Aluno';
+import Foto from '../models/Foto';
 
 class AlunoController {
   async index(req, res) {
     try {
-      const alunos = await Aluno.findAll();
-
-      const alunosFormatados = alunos.map(aluno => {
-        const { id, nome, sobrenome, email } = aluno;
-        return { id, nome, sobrenome, email };
+      const alunos = await Aluno.findAll({
+        attributes: ['id', 'nome', 'sobrenome', 'email', 'idade', 'peso', 'altura'],
+        order: [['id', 'DESC'], [Foto, 'id', 'DESC']],
+        include: {
+          model: Foto,
+          attributes: ['filename']
+        }
       });
 
-      return res.json(alunosFormatados);
+      return res.json(alunos);
 
     } catch {
       return res.status(500).json({
@@ -28,16 +31,21 @@ class AlunoController {
         });
       }
 
-      const aluno = await Aluno.findByPk(id);
+      const aluno = await Aluno.findByPk(id, {
+        attributes: ['id', 'nome', 'sobrenome', 'email', 'idade', 'peso', 'altura'],
+        order: [['id', 'DESC'], [Foto, 'id', 'DESC']],
+        include: {
+          model: Foto,
+          attributes: ['filename']
+        }
+      });
 
       if(!aluno) {
         return res.status(400).json({
           errors: 'Aluno não encontrado!'
         });
       }
-
-      const { nome, sobrenome, email } = aluno;
-      return res.json({ id, nome, sobrenome, email });
+      return res.json(aluno);
 
     } catch(e) {
       return res.status(400).json({
