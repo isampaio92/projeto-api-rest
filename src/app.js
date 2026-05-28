@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { resolve } from 'path';
+console.log('Caminho das imagens:', resolve(__dirname, '..', 'uploads', 'images'));
 dotenv.config();
 
 import './database';
